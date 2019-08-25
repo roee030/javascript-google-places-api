@@ -50,17 +50,32 @@ function getdatafirsttry(url)
         if(data.results[i].opening_hours){
         var isOpen = data.results[i].opening_hours.open_now;}else{isOpen = "Null"}
         //add to an object
-        data_from_api.push(name_of_restaurant,distance_from_user,isOpen,image_of_restaurant);
+        data_from_api.push(name_of_restaurant,Math.round(distance_from_user),isOpen,image_of_restaurant);
         
     }
     console.log(data_from_api);
 } ).then( (success, err) => {
     if (err) { console.error(err); }
-    if(toContinue){
-        console.log(url)
-    alltogheter(url);
+    var html = "";
+    for( var i = 0 ; i< data_from_api.length ; i+=4)
+    {
+        if(data_from_api[i+2]){var open_or_not = "Open"}else{open_or_not = "close"}
+       html+=
+       `<div class="container">`+
+       `<div class="card" style="width: 40rem;">`+
+       "<img src="+data_from_api[i+3]+" class=card-img-top>"+
+       `<div class="card-body">`+
+       `<h5 class="card-title">`+data_from_api[i]+`</h5>`+
+       `<p class="card-text">Your distance from the restuarant is:`+ data_from_api[i+1]+`KM </p>`
+       +`<a href="#" class="btn btn-primary">`+ open_or_not +`Now </a>`
+        +`</div>`+
+       +`</div> </div>`
     }
-})
+    document.getElementById("practice").innerHTML = html;
+
+
+    }
+)
 
 
 }
