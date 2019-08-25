@@ -42,15 +42,18 @@ function getdatafirsttry(url)
         else { image_of_restaurant = undefined}
         //name - check
         var name_of_restaurant = data.results[i].name;
-
+        //geo - check
+        var place_lat = data.results[i].geometry.location.lat;
+        var place_lng = data.results[i].geometry.location.lng;
+        var distance_from_user = getDistanceFromLatLonInKm(user_lat,user_lng,place_lat,place_lng)
+        //is open?!
+        if(data.results[i].opening_hours){
+        var isOpen = data.results[i].opening_hours.open_now;}else{isOpen = "Null"}
         //add to an object
-        //data_from_api.push(name_of_restaurant,image_of_restaurant);
-        //console.log(i + name_of_restaurant + address_of_restaurant  )
-
-        //distance user from the restaurant*/
-        console.log(address_of_restaurant)
+        data_from_api.push(name_of_restaurant,distance_from_user,isOpen,image_of_restaurant);
+        
     }
-    
+    console.log(data_from_api);
 } ).then( (success, err) => {
     if (err) { console.error(err); }
     if(toContinue){
